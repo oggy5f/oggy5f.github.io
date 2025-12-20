@@ -75,24 +75,27 @@
     <div class="status" id="status"></div>
   </div>
 
-<script>
+<script type="module">
+  import { sdk } from "https://esm.sh/@farcaster/miniapp-sdk";
+
   const btn = document.getElementById("checkinBtn");
   const status = document.getElementById("status");
 
-  function isFarcaster() {
-    return typeof window.farcaster !== "undefined";
-  }
+  // Tell Farcaster app is ready
+  sdk.actions.ready();
 
-  if (isFarcaster()) {
-    status.innerText = "🟣 Opened inside Farcaster Mini App";
-  } else {
-    status.innerText = "🌐 Opened in normal browser";
-  }
+  status.innerText = "🟣 Running inside Farcaster Mini App";
 
-  btn.addEventListener("click", () => {
-    status.innerText = "✅ Check-in clicked";
+  btn.addEventListener("click", async () => {
+    status.innerText = "⏳ Check-in clicked";
+
+    // future: onchain tx yahin aayega
+    setTimeout(() => {
+      status.innerText = "✅ Check-in successful (demo)";
+    }, 800);
   });
 </script>
+
 
 
 </body>
