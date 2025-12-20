@@ -75,14 +75,25 @@
     <div class="status" id="status"></div>
   </div>
 
-  <script>
-    const btn = document.getElementById("checkinBtn");
-    const status = document.getElementById("status");
+<script>
+  const btn = document.getElementById("checkinBtn");
+  const status = document.getElementById("status");
 
-    btn.addEventListener("click", () => {
-      status.innerText = "✅ Check-in clicked (logic working)";
-    });
-  </script>
+  function isFarcaster() {
+    return typeof window.farcaster !== "undefined";
+  }
+
+  if (isFarcaster()) {
+    status.innerText = "🟣 Opened inside Farcaster Mini App";
+  } else {
+    status.innerText = "🌐 Opened in normal browser";
+  }
+
+  btn.addEventListener("click", () => {
+    status.innerText = "✅ Check-in clicked";
+  });
+</script>
+
 
 </body>
 </html>
