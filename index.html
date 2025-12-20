@@ -81,20 +81,37 @@
   const btn = document.getElementById("checkinBtn");
   const status = document.getElementById("status");
 
-  // Tell Farcaster app is ready
+  // Tell Farcaster app we're ready
   sdk.actions.ready();
 
-  status.innerText = "🟣 Running inside Farcaster Mini App";
+  async function init() {
+    try {
+      const context = await sdk.context;
 
-  btn.addEventListener("click", async () => {
-    status.innerText = "⏳ Check-in clicked";
+      // Farcaster user
+      const user = context?.user;
+      const wallet = context?.wallets?.[0];
 
-    // future: onchain tx yahin aayega
-    setTimeout(() => {
-      status.innerText = "✅ Check-in successful (demo)";
-    }, 800);
+      if (user) {
+        status.innerText = `👤 @${user.username}`;
+      }
+
+      if (wallet) {
+        status.innerText += `\n💼 ${wallet.address.slice(0, 6)}...${wallet.address.slice(-4)}`;
+      }
+    } catch (err) {
+      status.innerText = "⚠️ Unable to read Farcaster context";
+      console.error(err);
+    }
+  }
+
+  init();
+
+  btn.addEventListener("click", () => {
+    status.innerText += "\n✅ Check-in clicked (Step 2 demo)";
   });
 </script>
+
 
 
 
