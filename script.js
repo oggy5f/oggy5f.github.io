@@ -1,69 +1,62 @@
-// STEP 4 — Farcaster + Base Wallet (FINAL SAFE VERSION)
+// STEP 4 – Farcaster + Base wallet (FINAL SAFE VERSION)
+
+import { sdk } from "https://esm.sh/@farcaster/miniapp-sdk";
 
 const btn = document.getElementById("checkinBtn");
 const status = document.getElementById("status");
 
-let sdk;
-
-// Init when page loads
 async function init() {
-  // 1️⃣ Check Farcaster SDK
-  if (!window.farcaster?.sdk) {
-    status.innerText = "❌ Not opened inside Farcaster";
-    return;
-  }
-
-  sdk = window.farcaster.sdk;
-
-  // 2️⃣ Tell Farcaster app we're ready (VERY IMPORTANT)
-  await sdk.actions.ready();
-
-  // 3️⃣ Get Farcaster context
   try {
-    const context = await sdk.context.get();
-    const user = context?.user;
+    // Tell Farcaster app we are ready
+    await sdk.actions.ready();
 
-    if (user?.username) {
-      status.innerText = `🟣 Logged in as @${user.username}`;
-    } else {
-      status.innerText = "🟣 Farcaster user detected";
+    // Get Farcaster context
+    const context = await sdk.context;
+
+    const user = context?.user;
+    const wallet = context?.wallets?.[0];
+
+    if (user) {
+      status.innerText = `👤 @${user.username}`;
     }
+
+    if (wallet) {
+      status.innerText += `\n💼 ${wallet.address.slice(0, 6)}...${wallet.address.slice(-4)}`;
+    }
+
+    if (!user && !wallet) {
+      status.innerText = "🟣 Running inside Farcaster Mini App";
+    }
+
   } catch (err) {
     console.error(err);
-    status.innerText = "⚠️ Could not read Farcaster context";
+    status.innerText = "❌ Failed to load Farcaster context";
   }
 }
 
-// Button click = wallet check
 btn.addEventListener("click", async () => {
   try {
-    status.innerText = "🔍 Checking Base wallet...";
+    status.innerText += `\n⏳ Checking wallet...`;
 
-    // 4️⃣ Request wallet from Farcaster
     const wallet = await sdk.wallet.get();
 
     if (!wallet) {
-      status.innerText = "❌ Wallet not connected";
+      status.innerText += `\n❌ Wallet not connected`;
       return;
     }
 
-    // 5️⃣ Check Base network (chainId = 8453)
     if (wallet.chainId !== 8453) {
-      status.innerText = "⚠️ Please switch to Base network";
+      status.innerText += `\n⚠️ Switch to Base network`;
       return;
     }
 
-    // 6️⃣ SUCCESS
-    status.innerText =
-      `✅ Base wallet connected\n` +
-      `💼 ${wallet.address.slice(0, 6)}...${wallet.address.slice(-4)}\n` +
-      `🎯 Check-in ready`;
+    status.innerText += `\n✅ Base wallet connected`;
+    status.innerText += `\n🎯 Daily check-in success (demo)`;
 
   } catch (err) {
     console.error(err);
-    status.innerText = "❌ Wallet check failed";
+    status.innerText += `\n❌ Wallet check failed`;
   }
 });
 
-// Start app
 init();
