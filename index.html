@@ -6,7 +6,6 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- Basic style -->
   <style>
     body {
       margin: 0;
@@ -61,6 +60,7 @@
       margin-top: 14px;
       font-size: 13px;
       color: #7dd3fc;
+      white-space: pre-line;
     }
   </style>
 </head>
@@ -71,49 +71,11 @@
     <p>Daily onchain check-in (Base)</p>
 
     <button id="checkinBtn">Daily Check-in</button>
-
     <div class="status" id="status"></div>
   </div>
 
-<script type="module">
-  import { sdk } from "https://esm.sh/@farcaster/miniapp-sdk";
-
-  const btn = document.getElementById("checkinBtn");
-  const status = document.getElementById("status");
-
-  // Tell Farcaster app we're ready
-  sdk.actions.ready();
-
-  async function init() {
-    try {
-      const context = await sdk.context;
-
-      // Farcaster user
-      const user = context?.user;
-      const wallet = context?.wallets?.[0];
-
-      if (user) {
-        status.innerText = `👤 @${user.username}`;
-      }
-
-      if (wallet) {
-        status.innerText += `\n💼 ${wallet.address.slice(0, 6)}...${wallet.address.slice(-4)}`;
-      }
-    } catch (err) {
-      status.innerText = "⚠️ Unable to read Farcaster context";
-      console.error(err);
-    }
-  }
-
-  init();
-
-  btn.addEventListener("click", () => {
-    status.innerText += "\n✅ Check-in clicked (Step 2 demo)";
-  });
-</script>
-
-
-
+  <!-- ONLY THIS SCRIPT -->
+  <script src="script.js"></script>
 
 </body>
 </html>
