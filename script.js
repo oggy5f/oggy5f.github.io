@@ -1,4 +1,4 @@
-// STEP 6 – Stable Farcaster init (preview-safe)
+// FINAL READY FIX – PREVIEW SAFE
 
 const btn = document.getElementById("checkinBtn");
 const status = document.getElementById("status");
@@ -21,20 +21,17 @@ async function init() {
 
   const sdk = await waitForSDK();
 
-  // MUST be called once
+  // 🔑 THIS IS THE KEY LINE
   await sdk.actions.ready();
 
   const context = await sdk.context.get();
-  const username = context?.user?.username;
+  const username = context?.user?.username ?? "unknown";
 
   status.innerText = `🟣 Logged in as @${username}`;
 }
 
-btn.addEventListener("click", async () => {
-  status.innerText = "✅ Check-in clicked";
-
-  // Preview tool limit message
-  status.innerText += "\n⚠️ Wallet / signature disabled in preview";
+btn.addEventListener("click", () => {
+  status.innerText += "\n✅ Check-in clicked";
 });
 
 init();
