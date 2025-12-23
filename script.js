@@ -5,27 +5,26 @@ const status = document.getElementById("status");
 
 async function init() {
   try {
-    // VERY IMPORTANT
+    // Tell Farcaster app we are ready
     await sdk.actions.ready();
 
     const context = await sdk.context.get();
     const user = context?.user;
 
-    if (user?.username) {
+    if (user) {
       status.innerText = `👤 @${user.username}`;
     } else {
       status.innerText = "⚠️ User not detected";
     }
   } catch (e) {
-    console.error(e);
-    status.innerText = "❌ Farcaster context failed";
+    status.innerText = "⚠️ SDK init failed";
   }
 }
 
 btn.addEventListener("click", async () => {
-  try {
-    status.innerText += "\n⏳ Checking wallet...";
+  status.innerText += "\n⏳ Checking wallet...";
 
+  try {
     const wallet = await sdk.wallet.get();
 
     if (!wallet) {
@@ -34,13 +33,14 @@ btn.addEventListener("click", async () => {
     }
 
     if (wallet.chainId !== 8453) {
-      status.innerText += "\n⚠️ Switch to Base network";
+      status.innerText += "\n⚠️ Please switch to Base network";
       return;
     }
 
     status.innerText += "\n✅ Base wallet connected";
+    status.innerText += `\n💼 ${wallet.address.slice(0,6)}...${wallet.address.slice(-4)}`;
+
   } catch (err) {
-    console.error(err);
     status.innerText += "\n❌ Wallet check failed (preview limit)";
   }
 });
