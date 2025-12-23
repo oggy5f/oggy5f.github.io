@@ -1,8 +1,8 @@
 {
   "accountAssociation": {
-    "header": "HEADER_YAHAN",
-    "payload": "PAYLOAD_YAHAN",
-    "signature": "SIGNATURE_YAHAN"
+    "header": "eyJmaWQiOjUyNTAzOCwidHlwZSI6ImF1dGgiLCJrZXkiOiIweGYyQkM5QmUxNjkwOWEwNDE1ZTg2MjQ2ODdGOUU2YjE2NzQ0RjFiYjYifQ",
+    "payload": "eyJkb21haW4iOiJvZ2d5NWYuZ2l0aHViLmlvIn0",
+    "signature": "W4krJskp8FoaeNJk7FenZcIjurXqwD1lkGsyh62nrGdRPb4aPGtn2zRHu7folnqOSDHDq8cwceXy0wRx+sGUWRw="
   },
   "miniapp": {
     "version": "1",
