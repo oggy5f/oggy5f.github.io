@@ -1,47 +1,51 @@
-import { sdk } from "https://esm.sh/@farcaster/miniapp-sdk";
+// STEP 6 – Real Farcaster signature check-in (Base)
 
 const btn = document.getElementById("checkinBtn");
 const status = document.getElementById("status");
 
 async function init() {
-  try {
-    // Tell Farcaster app we are ready
-    await sdk.actions.ready();
-
-    const context = await sdk.context.get();
-    const user = context?.user;
-
-    if (user) {
-      status.innerText = `👤 @${user.username}`;
-    } else {
-      status.innerText = "⚠️ User not detected";
-    }
-  } catch (e) {
-    status.innerText = "⚠️ SDK init failed";
+  if (!window.farcaster?.sdk) {
+    status.innerText = "❌ Farcaster SDK not found";
+    return;
   }
+
+  const sdk = window.farcaster.sdk;
+
+  // very important
+  await sdk.actions.ready();
+
+  const context = await sdk.context.get();
+  const username = context?.user?.username;
+
+  status.innerText = `🟣 Logged in as @${username}`;
 }
 
 btn.addEventListener("click", async () => {
-  status.innerText += "\n⏳ Checking wallet...";
-
   try {
-    const wallet = await sdk.wallet.get();
+    status.innerText = "✍️ Requesting signature...";
 
-    if (!wallet) {
-      status.innerText += "\n❌ Wallet not connected";
-      return;
-    }
+    const sdk = window.farcaster.sdk;
 
-    if (wallet.chainId !== 8453) {
-      status.innerText += "\n⚠️ Please switch to Base network";
-      return;
-    }
+    const message = `Badgehub daily check-in\nDate: ${new Date().toDateString()}`;
 
-    status.innerText += "\n✅ Base wallet connected";
-    status.innerText += `\n💼 ${wallet.address.slice(0,6)}...${wallet.address.slice(-4)}`;
+    const signature = await sdk.signer.signMessage({
+      message
+    });
+
+    status.innerText =
+      "✅ Check-in successful!\n" +
+      "🔏 Signature received\n" +
+      signature.slice(0, 16) + "...";
+
+    console.log("Signature:", signature);
 
   } catch (err) {
-    status.innerText += "\n❌ Wallet check failed (preview limit)";
+    console.error(err);
+
+    status.innerText =
+      err?.message?.includes("preview")
+        ? "⚠️ Preview mode – signature blocked"
+        : "❌ Signature rejected by user";
   }
 });
 
