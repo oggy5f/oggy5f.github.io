@@ -9,14 +9,13 @@
     body {
       margin: 0;
       background: #0b0f1a;
-      color: #ffffff;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #fff;
+      font-family: system-ui, sans-serif;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       height: 100vh;
     }
-
     .card {
       background: #11162a;
       border-radius: 14px;
@@ -24,35 +23,16 @@
       width: 90%;
       max-width: 360px;
       text-align: center;
-      box-shadow: 0 0 20px rgba(0,0,0,0.4);
     }
-
-    h1 {
-      margin: 0 0 6px;
-      font-size: 22px;
-    }
-
-    p {
-      margin: 0 0 20px;
-      font-size: 14px;
-      color: #b8c1ff;
-    }
-
     button {
       width: 100%;
       padding: 14px;
-      font-size: 16px;
       border-radius: 10px;
-      border: 1px solid #1f2a44;
       background: #0f172a;
-      color: #ffffff;
+      color: white;
+      border: 1px solid #1f2a44;
       cursor: pointer;
     }
-
-    button:active {
-      transform: scale(0.98);
-    }
-
     .status {
       margin-top: 14px;
       font-size: 13px;
@@ -63,11 +43,9 @@
 </head>
 
 <body>
-
   <div class="card">
     <h1>Badgehub</h1>
     <p>Daily onchain check-in (Base)</p>
-
     <button id="checkinBtn">Daily Check-in</button>
     <div class="status" id="status"></div>
   </div>
