@@ -5,23 +5,24 @@ const status = document.getElementById("status");
 
 async function init() {
   try {
+    // VERY IMPORTANT
     await sdk.actions.ready();
 
     const context = await sdk.context.get();
     const user = context?.user;
 
-    if (user) {
+    if (user?.username) {
       status.innerText = `👤 @${user.username}`;
     } else {
-      status.innerText = "👤 User not found";
+      status.innerText = "⚠️ User not detected";
     }
   } catch (e) {
     console.error(e);
-    status.innerText = "⚠️ Farcaster context error";
+    status.innerText = "❌ Farcaster context failed";
   }
 }
 
-btn.onclick = async () => {
+btn.addEventListener("click", async () => {
   try {
     status.innerText += "\n⏳ Checking wallet...";
 
@@ -38,11 +39,10 @@ btn.onclick = async () => {
     }
 
     status.innerText += "\n✅ Base wallet connected";
-    status.innerText += "\n🎉 Ready for onchain check-in";
-  } catch (e) {
-    console.error(e);
+  } catch (err) {
+    console.error(err);
     status.innerText += "\n❌ Wallet check failed (preview limit)";
   }
-};
+});
 
 init();
