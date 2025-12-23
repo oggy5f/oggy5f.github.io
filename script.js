@@ -1,37 +1,38 @@
-// FINAL READY FIX – PREVIEW SAFE
-
 const btn = document.getElementById("checkinBtn");
 const status = document.getElementById("status");
 
-async function waitForSDK() {
-  return new Promise((resolve) => {
-    const check = () => {
-      if (window.farcaster?.sdk) {
-        resolve(window.farcaster.sdk);
-      } else {
-        setTimeout(check, 50);
-      }
-    };
-    check();
-  });
+async function safeReady() {
+  try {
+    if (window.farcaster?.sdk?.actions?.ready) {
+      await window.farcaster.sdk.actions.ready();
+      return true;
+    }
+  } catch (e) {}
+  return false;
 }
 
 async function init() {
-  status.innerText = "⏳ Initializing Farcaster…";
+  status.innerText = "⏳ Loading…";
 
-  const sdk = await waitForSDK();
+  // try multiple times
+  for (let i = 0; i < 10; i++) {
+    const ok = await safeReady();
+    if (ok) break;
+    await new Promise(r => setTimeout(r, 200));
+  }
 
-  // 🔑 THIS IS THE KEY LINE
-  await sdk.actions.ready();
+  if (!window.farcaster?.sdk) {
+    status.innerText =
+      "⚠️ Preview SDK not injected\n(works in real Farcaster)";
+    return;
+  }
 
-  const context = await sdk.context.get();
-  const username = context?.user?.username ?? "unknown";
-
-  status.innerText = `🟣 Logged in as @${username}`;
+  const ctx = await window.farcaster.sdk.context.get();
+  status.innerText = `🟣 Logged in as @${ctx?.user?.username}`;
 }
 
-btn.addEventListener("click", () => {
+btn.onclick = () => {
   status.innerText += "\n✅ Check-in clicked";
-});
+};
 
 init();
