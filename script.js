@@ -1,4 +1,4 @@
-// STEP 6 – Stable Farcaster init + ready fix
+// STEP 6 – Stable Farcaster init (preview-safe)
 
 const btn = document.getElementById("checkinBtn");
 const status = document.getElementById("status");
@@ -21,7 +21,7 @@ async function init() {
 
   const sdk = await waitForSDK();
 
-  // VERY IMPORTANT
+  // MUST be called once
   await sdk.actions.ready();
 
   const context = await sdk.context.get();
@@ -31,28 +31,10 @@ async function init() {
 }
 
 btn.addEventListener("click", async () => {
-  try {
-    status.innerText = "✍️ Requesting signature…";
+  status.innerText = "✅ Check-in clicked";
 
-    const sdk = window.farcaster.sdk;
-
-    const message = `Badgehub daily check-in\nDate: ${new Date().toDateString()}`;
-
-    const signature = await sdk.signer.signMessage({ message });
-
-    status.innerText =
-      "✅ Check-in successful\n" +
-      "🔏 Signature received";
-
-    console.log("Signature:", signature);
-
-  } catch (err) {
-    console.error(err);
-    status.innerText =
-      err?.message?.includes("preview")
-        ? "⚠️ Preview mode – signature blocked"
-        : "❌ User rejected signature";
-  }
+  // Preview tool limit message
+  status.innerText += "\n⚠️ Wallet / signature disabled in preview";
 });
 
 init();
