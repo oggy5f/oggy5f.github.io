@@ -1,9 +1,4 @@
 {
-  "accountAssociation": {
-    "header": "PASTE_YAHAN",
-    "payload": "PASTE_YAHAN",
-    "signature": "PASTE_YAHAN"
-  },
   "miniapp": {
     "version": "1",
     "name": "Badgehub",
