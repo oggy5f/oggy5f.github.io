@@ -1,4 +1,9 @@
 {
+  "accountAssociation": {
+    "header": "HEADER_YAHAN",
+    "payload": "PAYLOAD_YAHAN",
+    "signature": "SIGNATURE_YAHAN"
+  },
   "miniapp": {
     "version": "1",
     "name": "Badgehub",
