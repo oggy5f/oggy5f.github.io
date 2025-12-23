@@ -1,10 +1,11 @@
 {
   "accountAssociation": {
-    "header": "",
-    "payload": "",
-    "signature": ""
+    "header": "PASTE_YAHAN",
+    "payload": "PASTE_YAHAN",
+    "signature": "PASTE_YAHAN"
   },
   "miniapp": {
+    "version": "1",
     "name": "Badgehub",
     "description": "Daily onchain badge on Base",
     "iconUrl": "https://oggy5f.github.io/icon.png",
