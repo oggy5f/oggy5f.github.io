@@ -1,17 +1,27 @@
-// STEP 6 – Real Farcaster signature check-in (Base)
+// STEP 6 – Stable Farcaster init + ready fix
 
 const btn = document.getElementById("checkinBtn");
 const status = document.getElementById("status");
 
+async function waitForSDK() {
+  return new Promise((resolve) => {
+    const check = () => {
+      if (window.farcaster?.sdk) {
+        resolve(window.farcaster.sdk);
+      } else {
+        setTimeout(check, 50);
+      }
+    };
+    check();
+  });
+}
+
 async function init() {
-  if (!window.farcaster?.sdk) {
-    status.innerText = "❌ Farcaster SDK not found";
-    return;
-  }
+  status.innerText = "⏳ Initializing Farcaster…";
 
-  const sdk = window.farcaster.sdk;
+  const sdk = await waitForSDK();
 
-  // very important
+  // VERY IMPORTANT
   await sdk.actions.ready();
 
   const context = await sdk.context.get();
@@ -22,30 +32,26 @@ async function init() {
 
 btn.addEventListener("click", async () => {
   try {
-    status.innerText = "✍️ Requesting signature...";
+    status.innerText = "✍️ Requesting signature…";
 
     const sdk = window.farcaster.sdk;
 
     const message = `Badgehub daily check-in\nDate: ${new Date().toDateString()}`;
 
-    const signature = await sdk.signer.signMessage({
-      message
-    });
+    const signature = await sdk.signer.signMessage({ message });
 
     status.innerText =
-      "✅ Check-in successful!\n" +
-      "🔏 Signature received\n" +
-      signature.slice(0, 16) + "...";
+      "✅ Check-in successful\n" +
+      "🔏 Signature received";
 
     console.log("Signature:", signature);
 
   } catch (err) {
     console.error(err);
-
     status.innerText =
       err?.message?.includes("preview")
         ? "⚠️ Preview mode – signature blocked"
-        : "❌ Signature rejected by user";
+        : "❌ User rejected signature";
   }
 });
 
