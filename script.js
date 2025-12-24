@@ -1,11 +1,32 @@
-console.log("Farcaster Mini App JS loaded ✅");
+// script.js – Farcaster Mini App Safe Bootstrap
 
-const btn = document.getElementById("testBtn");
+window.addEventListener("load", () => {
+  const statusLog = (msg) => {
+    console.log(msg);
+  };
 
-if (btn) {
-  btn.addEventListener("click", () => {
-    alert("Button working! 🎉");
-  });
-} else {
-  console.error("Button not found ❌");
-}
+  // Detect Farcaster SDK
+  if (window.sdk && window.sdk.actions) {
+    statusLog("🟣 Farcaster SDK detected");
+
+    try {
+      window.sdk.actions.ready();
+      statusLog("✅ sdk.actions.ready() called");
+    } catch (err) {
+      console.error("❌ Error calling ready():", err);
+    }
+
+  } else {
+    statusLog("🌐 Running in normal browser (not Farcaster)");
+  }
+
+  // Button test
+  const btn = document.getElementById("testBtn");
+  if (btn) {
+    btn.addEventListener("click", () => {
+      alert("✅ Test button working");
+    });
+  } else {
+    console.warn("⚠️ testBtn not found in DOM");
+  }
+});
