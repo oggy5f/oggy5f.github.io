@@ -1,10 +1,11 @@
-import { sdk } from "https://unpkg.com/@farcaster/frame-sdk/dist/index.js";
+console.log("Farcaster Mini App JS loaded ✅");
 
-window.addEventListener("load", async () => {
-  try {
-    await sdk.actions.ready();
-    console.log("✅ Farcaster Mini App READY called");
-  } catch (err) {
-    console.error("❌ Farcaster READY failed", err);
-  }
-});
+const btn = document.getElementById("testBtn");
+
+if (btn) {
+  btn.addEventListener("click", () => {
+    alert("Button working! 🎉");
+  });
+} else {
+  console.error("Button not found ❌");
+}
