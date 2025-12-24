@@ -9,32 +9,32 @@ function log(msg) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  log("📄 App loaded");
+  log("App loaded");
 
-  // ⚠️ DO NOT early return in Mini Apps
   if (!window.farcaster) {
-    log("🌐 Normal browser (not Farcaster)");
-    btn.onclick = () => {
-      alert("Running in normal browser");
-    };
+    log("Normal browser (not Farcaster)");
+    if (btn) {
+      btn.onclick = () => alert("Normal browser");
+    }
     return;
   }
 
-  log("🟣 Farcaster SDK detected");
+  log("Farcaster detected");
 
-  // Wait safely for Farcaster context
   window.farcaster.ready()
     .then(() => {
       const ctx = window.farcaster.getContext();
-      log("✅ Farcaster context ready");
+      log("Farcaster context ready");
       log("FID: " + ctx.user.fid);
 
-      btn.onclick = () => {
-        alert(`✅ Mini App working\nFID: ${ctx.user.fid}`);
-      };
+      if (btn) {
+        btn.onclick = () => {
+          alert("Mini App working. FID: " + ctx.user.fid);
+        };
+      }
     })
     .catch((err) => {
-      log("❌ Farcaster ready failed");
+      log("Farcaster ready failed");
       console.error(err);
     });
 });
