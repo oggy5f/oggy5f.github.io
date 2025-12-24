@@ -2,29 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-
-  <!-- ✅ REQUIRED: Farcaster Frame -->
-  <meta name="fc:frame" content="vNext" />
-  <meta name="fc:frame:image" content="https://oggy5f-github-io.pages.dev/og.png" />
-  <meta name="fc:frame:button:1" content="Open BadgeHub" />
-
-  <!-- ✅ REQUIRED: Allow Warpcast iframe -->
-  <meta http-equiv="Content-Security-Policy"
-        content="frame-ancestors 'self' https://warpcast.com https://*.warpcast.com;">
-
   <title>BadgeHub – Farcaster Mini App</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- ✅ Iframe-safe styling -->
   <style>
     html, body {
       margin: 0;
       padding: 0;
       background: #0b0b0b;
-      color: #ffffff;
+      color: #fff;
       font-family: Arial, sans-serif;
-      width: 100%;
-      min-height: 100%;
     }
 
     body {
@@ -33,42 +20,25 @@
 
     .app {
       margin: 40px auto;
-      text-align: center;
       max-width: 420px;
-      width: 100%;
       padding: 20px;
       border-radius: 12px;
       background: #111;
-      box-shadow: 0 0 20px rgba(0,0,0,0.6);
-    }
-
-    h1 {
-      margin-bottom: 10px;
-      font-size: 22px;
-    }
-
-    p {
-      font-size: 14px;
-      opacity: 0.85;
+      text-align: center;
     }
 
     button {
       margin-top: 20px;
       padding: 12px 16px;
-      font-size: 14px;
-      border: none;
       border-radius: 8px;
-      cursor: pointer;
+      border: none;
       background: #0052ff;
-      color: white;
-    }
-
-    button:active {
-      transform: scale(0.98);
+      color: #fff;
+      cursor: pointer;
     }
 
     .status {
-      margin-top: 16px;
+      margin-top: 12px;
       font-size: 12px;
       color: #7dd3fc;
       white-space: pre-line;
@@ -77,20 +47,15 @@
 </head>
 
 <body>
-
   <div class="app">
     <h1>🚀 BadgeHub</h1>
-    <p>Farcaster Mini App on Base</p>
-
+    <p>Farcaster Mini App</p>
     <button id="testBtn">Test Button</button>
-
     <div id="status" class="status"></div>
   </div>
 
-  <!-- ✅ Farcaster SDK -->
+  <!-- Farcaster Mini App SDK -->
   <script src="https://unpkg.com/@farcaster/frame-sdk/dist/index.js"></script>
-
-  <!-- App logic -->
   <script src="script.js"></script>
 </body>
 </html>
