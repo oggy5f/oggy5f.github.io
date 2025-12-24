@@ -1,32 +1,46 @@
-// script.js – Farcaster Mini App Safe Bootstrap
+console.log("script.js loaded");
 
-window.addEventListener("load", () => {
-  const statusLog = (msg) => {
-    console.log(msg);
-  };
+// Helper
+function log(msg, data = "") {
+  console.log(`[MiniApp] ${msg}`, data);
+}
 
-  // Detect Farcaster SDK
-  if (window.sdk && window.sdk.actions) {
-    statusLog("🟣 Farcaster SDK detected");
+// Button test (existing)
+const testBtn = document.getElementById("testBtn");
+if (testBtn) {
+  testBtn.addEventListener("click", () => {
+    alert("✅ Test button working");
+  });
+}
 
-    try {
-      window.sdk.actions.ready();
-      statusLog("✅ sdk.actions.ready() called");
-    } catch (err) {
-      console.error("❌ Error calling ready():", err);
-    }
+// ---- Farcaster Context Step ----
 
-  } else {
-    statusLog("🌐 Running in normal browser (not Farcaster)");
+if (window.frameSDK) {
+  log("Farcaster SDK detected");
+
+  try {
+    window.frameSDK.actions.ready();
+    log("frameSDK ready() called");
+
+    window.frameSDK.context
+      .then((ctx) => {
+        log("Farcaster context received", ctx);
+
+        // Show on UI
+        const status = document.getElementById("status");
+        if (status) {
+          status.innerText =
+            "✅ Running inside Farcaster\n" +
+            `FID: ${ctx?.user?.fid || "N/A"}\n` +
+            `Username: ${ctx?.user?.username || "N/A"}`;
+        }
+      })
+      .catch((err) => {
+        log("Context error", err);
+      });
+  } catch (e) {
+    log("SDK error", e);
   }
-
-  // Button test
-  const btn = document.getElementById("testBtn");
-  if (btn) {
-    btn.addEventListener("click", () => {
-      alert("✅ Test button working");
-    });
-  } else {
-    console.warn("⚠️ testBtn not found in DOM");
-  }
-});
+} else {
+  log("Running in normal browser (not Farcaster)");
+}
