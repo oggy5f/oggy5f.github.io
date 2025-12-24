@@ -1,12 +1,12 @@
 {
   "accountAssociation": {
-    "header": "eyJmaWQiOjUyNTAzOCwidHlwZSI6ImF1dGgiLCJrZXkiOiIweGYyQkM5QmUxNjkwOWEwNDE1ZTg2MjQ2ODdGOUU2YjE2NzQ0RjFiYjYifQ",
-    "payload": "eyJkb21haW4iOiJvZ2d5NWYtZ2l0aHViLWlvLnBhZ2VzLmRldiJ9",
-    "signature": "W4krJskp8FoaeNJk7FenZcIjurXqwD1lkGsyh62nrGdRPb4aPGtn2zRHu7folnqOSDHDq8cwceXy0wRx+sGUWRw="
+    "header": "PASTE SAME HEADER",
+    "payload": "PASTE SAME PAYLOAD",
+    "signature": "PASTE SAME SIGNATURE"
   },
   "miniapp": {
     "version": "1",
-    "name": "BadgeHub",
+    "name": "Badgehub",
     "description": "Daily onchain badge on Base",
     "iconUrl": "https://oggy5f-github-io.pages.dev/og.png",
     "homeUrl": "https://oggy5f-github-io.pages.dev",
