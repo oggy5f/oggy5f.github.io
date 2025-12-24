@@ -1,40 +1,31 @@
-const statusEl = document.getElementById("status");
-const btn = document.getElementById("testBtn");
+const status = document.getElementById("status");
+const btn = document.getElementById("btn");
 
 function log(msg) {
   console.log(msg);
-  if (statusEl) {
-    statusEl.textContent += msg + "\n";
-  }
+  status.textContent += msg + "\n";
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   log("App loaded");
 
-  if (!window.farcaster) {
-    log("Normal browser (not Farcaster)");
-    if (btn) {
-      btn.onclick = () => alert("Normal browser");
-    }
+  if (!window.fc) {
+    log("Not inside Farcaster");
     return;
   }
 
-  log("Farcaster detected");
+  try {
+    await window.fc.ready();
+    log("Mini App ready");
 
-  window.farcaster.ready()
-    .then(() => {
-      const ctx = window.farcaster.getContext();
-      log("Farcaster context ready");
-      log("FID: " + ctx.user.fid);
+    const ctx = await window.fc.getContext();
+    log("FID: " + ctx.user.fid);
 
-      if (btn) {
-        btn.onclick = () => {
-          alert("Mini App working. FID: " + ctx.user.fid);
-        };
-      }
-    })
-    .catch((err) => {
-      log("Farcaster ready failed");
-      console.error(err);
-    });
+    btn.onclick = () => {
+      alert("Mini App works. FID: " + ctx.user.fid);
+    };
+  } catch (e) {
+    log("Init failed");
+    console.error(e);
+  }
 });
