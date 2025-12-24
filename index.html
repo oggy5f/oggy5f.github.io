@@ -2,24 +2,34 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Farcaster Mini App</title>
+
+  <!-- ✅ REQUIRED: Farcaster Mini App / Frame Meta -->
+  <meta name="fc:frame" content="vNext" />
+  <meta name="fc:frame:image" content="https://oggy5f-github-io.pages.dev/og.png" />
+  <meta name="fc:frame:button:1" content="Open BadgeHub" />
+  <meta name="fc:frame:post_url" content="https://oggy5f-github-io.pages.dev" />
+
+  <title>BadgeHub – Farcaster Mini App</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Basic styling -->
+  <!-- ✅ Iframe-safe styling (NO 100vh flex trap) -->
   <style>
-    body {
+    html, body {
       margin: 0;
       padding: 0;
-      font-family: Arial, sans-serif;
       background: #0b0b0b;
       color: #ffffff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      font-family: Arial, sans-serif;
+      width: 100%;
+      min-height: 100%;
+    }
+
+    body {
+      padding: 16px;
     }
 
     .app {
+      margin: 40px auto;
       text-align: center;
       max-width: 420px;
       width: 100%;
@@ -36,7 +46,7 @@
 
     p {
       font-size: 14px;
-      opacity: 0.8;
+      opacity: 0.85;
     }
 
     button {
@@ -53,18 +63,32 @@
     button:active {
       transform: scale(0.98);
     }
+
+    .status {
+      margin-top: 16px;
+      font-size: 12px;
+      color: #7dd3fc;
+      white-space: pre-line;
+    }
   </style>
 </head>
+
 <body>
 
   <div class="app">
-    <h1>🚀 Farcaster Mini App</h1>
-    <p>Cloudflare Pages + GitHub working ✅</p>
+    <h1>🚀 BadgeHub</h1>
+    <p>Farcaster Mini App on Base</p>
 
     <button id="testBtn">Test Button</button>
-  </div>
-<script src="https://unpkg.com/@farcaster/frame-sdk/dist/index.js"></script>
 
+    <!-- Farcaster context status -->
+    <div id="status" class="status"></div>
+  </div>
+
+  <!-- ✅ Farcaster Frame SDK (must be before script.js) -->
+  <script src="https://unpkg.com/@farcaster/frame-sdk/dist/index.js"></script>
+
+  <!-- App logic -->
   <script src="script.js"></script>
 </body>
 </html>
