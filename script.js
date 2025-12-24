@@ -1,35 +1,53 @@
-console.log("script.js loaded");
+// script.js – Farcaster Mini App SAFE VERSION
 
-// Check if Farcaster SDK is available
-if (!window.farcaster) {
-  console.log("Running in normal browser (not Farcaster)");
-} else {
-  console.log("Running inside Farcaster");
+const statusEl = document.getElementById("status");
+const testBtn = document.getElementById("testBtn");
+
+function log(msg) {
+  if (statusEl) {
+    statusEl.textContent += msg + "\n";
+  }
+  console.log(msg);
 }
 
-const btn = document.getElementById("testBtn");
+// Detect Farcaster environment safely
+function isFarcaster() {
+  return typeof window.farcaster !== "undefined";
+}
 
-btn.addEventListener("click", () => {
-  alert("✅ Test button working");
-});
-
-// ---- Farcaster init ----
 async function initFarcaster() {
   try {
-    if (!window.farcaster) return;
+    log("⏳ Initializing Farcaster context...");
 
-    // VERY IMPORTANT
+    // REQUIRED: wait for SDK
     await window.farcaster.ready();
 
-    const ctx = await window.farcaster.context;
-    console.log("Farcaster context:", ctx);
+    const ctx = window.farcaster.getContext();
+    log("✅ Farcaster context ready");
+    log("FID: " + ctx.user?.fid);
 
-    // Tell Farcaster app that UI is ready
-    window.farcaster.resize();
-
+    return ctx;
   } catch (err) {
-    console.error("Farcaster init error:", err);
+    log("❌ Farcaster init failed");
+    console.error(err);
+    return null;
   }
 }
 
-initFarcaster();
+document.addEventListener("DOMContentLoaded", async () => {
+  log("📄 App loaded");
+
+  if (!isFarcaster()) {
+    log("🌐 Running in normal browser (not Farcaster)");
+    return;
+  }
+
+  log("🟣 Running inside Farcaster");
+  const ctx = await initFarcaster();
+
+  if (ctx && testBtn) {
+    testBtn.onclick = () => {
+      alert("✅ Farcaster Mini App working!\nFID: " + ctx.user.fid);
+    };
+  }
+});
