@@ -3,30 +3,38 @@ const btn = document.getElementById("testBtn");
 
 function log(msg) {
   console.log(msg);
-  if (statusEl) statusEl.textContent += msg + "\n";
+  if (statusEl) {
+    statusEl.textContent += msg + "\n";
+  }
 }
 
-document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener("DOMContentLoaded", () => {
   log("📄 App loaded");
 
+  // ⚠️ DO NOT early return in Mini Apps
   if (!window.farcaster) {
     log("🌐 Normal browser (not Farcaster)");
+    btn.onclick = () => {
+      alert("Running in normal browser");
+    };
     return;
   }
 
-  log("🟣 Inside Farcaster");
+  log("🟣 Farcaster SDK detected");
 
-  try {
-    await window.farcaster.ready();
-    const ctx = window.farcaster.getContext();
-    log("✅ Context ready");
-    log("FID: " + ctx.user.fid);
+  // Wait safely for Farcaster context
+  window.farcaster.ready()
+    .then(() => {
+      const ctx = window.farcaster.getContext();
+      log("✅ Farcaster context ready");
+      log("FID: " + ctx.user.fid);
 
-    btn.onclick = () => {
-      alert("✅ Mini App working!\nFID: " + ctx.user.fid);
-    };
-  } catch (e) {
-    log("❌ Farcaster init failed");
-    console.error(e);
-  }
+      btn.onclick = () => {
+        alert(`✅ Mini App working\nFID: ${ctx.user.fid}`);
+      };
+    })
+    .catch((err) => {
+      log("❌ Farcaster ready failed");
+      console.error(err);
+    });
 });
