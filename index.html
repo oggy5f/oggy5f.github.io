@@ -3,16 +3,19 @@
 <head>
   <meta charset="UTF-8" />
 
-  <!-- ✅ REQUIRED: Farcaster Mini App / Frame Meta -->
+  <!-- ✅ REQUIRED: Farcaster Frame -->
   <meta name="fc:frame" content="vNext" />
   <meta name="fc:frame:image" content="https://oggy5f-github-io.pages.dev/og.png" />
   <meta name="fc:frame:button:1" content="Open BadgeHub" />
-  <meta name="fc:frame:post_url" content="https://oggy5f-github-io.pages.dev" />
+
+  <!-- ✅ REQUIRED: Allow Warpcast iframe -->
+  <meta http-equiv="Content-Security-Policy"
+        content="frame-ancestors 'self' https://warpcast.com https://*.warpcast.com;">
 
   <title>BadgeHub – Farcaster Mini App</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- ✅ Iframe-safe styling (NO 100vh flex trap) -->
+  <!-- ✅ Iframe-safe styling -->
   <style>
     html, body {
       margin: 0;
@@ -81,11 +84,10 @@
 
     <button id="testBtn">Test Button</button>
 
-    <!-- Farcaster context status -->
     <div id="status" class="status"></div>
   </div>
 
-  <!-- ✅ Farcaster Frame SDK (must be before script.js) -->
+  <!-- ✅ Farcaster SDK -->
   <script src="https://unpkg.com/@farcaster/frame-sdk/dist/index.js"></script>
 
   <!-- App logic -->
