@@ -1,42 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8" />
-  <title>BadgeHub – Farcaster Mini App</title>
+  <title>BadgeHub</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      background: #0b0b0b;
-      color: #fff;
-      font-family: Arial, sans-serif;
-    }
-
     body {
-      padding: 16px;
-    }
-
-    .app {
-      margin: 40px auto;
-      max-width: 420px;
+      margin: 0;
       padding: 20px;
-      border-radius: 12px;
+      background: #0b0b0b;
+      color: white;
+      font-family: system-ui, sans-serif;
+    }
+    .app {
+      max-width: 400px;
+      margin: 40px auto;
+      padding: 20px;
       background: #111;
+      border-radius: 12px;
       text-align: center;
     }
-
     button {
-      margin-top: 20px;
-      padding: 12px 16px;
+      margin-top: 16px;
+      padding: 12px;
       border-radius: 8px;
       border: none;
       background: #0052ff;
-      color: #fff;
+      color: white;
       cursor: pointer;
     }
-
     .status {
       margin-top: 12px;
       font-size: 12px;
@@ -48,12 +41,14 @@
 
 <body>
   <div class="app">
-    <h1>🚀 BadgeHub</h1>
+    <h2>BadgeHub</h2>
     <p>Farcaster Mini App</p>
-    <button id="testBtn">Test Button</button>
+    <button id="btn">Test</button>
     <div id="status" class="status"></div>
   </div>
 
+  <!-- ✅ CORRECT Mini App SDK -->
+  <script src="https://unpkg.com/@farcaster/miniapp-sdk/dist/index.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
